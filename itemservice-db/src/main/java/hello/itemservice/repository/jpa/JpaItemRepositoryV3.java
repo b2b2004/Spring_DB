@@ -22,7 +22,7 @@ import static hello.itemservice.domain.QItem.*;
 public class JpaItemRepositoryV3 implements ItemRepository {
 
     private final EntityManager em;
-    private final JPAQueryFactory query;
+    private final JPAQueryFactory query; // Querydsl꺼
 
     public JpaItemRepositoryV3(EntityManager em) {
         this.em = em;
@@ -75,6 +75,7 @@ public class JpaItemRepositoryV3 implements ItemRepository {
     public List<Item> findAll(ItemSearchCond cond) {
         String itemName = cond.getItemName();
         Integer maxPrice = cond.getMaxPrice();
+
         List<Item> result = query
                 .select(item)
                 .from(item)
@@ -92,7 +93,7 @@ public class JpaItemRepositoryV3 implements ItemRepository {
 
     private BooleanExpression maxPrice(Integer maxPrice) {
         if (maxPrice != null) {
-            return item.price.loe(maxPrice);
+            return item.price.loe(maxPrice); // loe 작거나 같다.
         }
         return null;
     }
